@@ -22,24 +22,23 @@ class DivisionModelController extends BaseController
         // filter by name and is string
         if ($request->has('name') && $request->validate(['name' => 'string'])) {
             $divisionsData = DivisionModel::where('name', 'like', '%' . $request->name . '%')->paginate(3);
+        } 
+        
+        if ($divisionsData->isEmpty()) {
+            $response = new ResponseModel('error', 'No division data found', null);
+            return response()->json($response, 404);
         }
 
-        // custom format the response
-        $response = [
-            'status' => 'success',
-            'message' => 'divisions data retrieved successfully',
-            'data' => [
-                'divisions' => DivisionResource::collection($divisionsData),
-            ],
-            'pagination' => [
-                'current_page' => $divisionsData->currentPage(),
-                'total' => $divisionsData->total(),
-                'per_page' => $divisionsData->perPage(),
-                'last_page' => $divisionsData->lastPage(),
-                'next_page_url' => $divisionsData->nextPageUrl(),
-                'prev_page_url' => $divisionsData->previousPageUrl(),
-            ],
+        $pagination = [
+            'current_page' => $divisionsData->currentPage(),
+            'total' => $divisionsData->total(),
+            'per_page' => $divisionsData->perPage(),
+            'last_page' => $divisionsData->lastPage(),
+            'next_page_url' => $divisionsData->nextPageUrl(),
+            'prev_page_url' => $divisionsData->previousPageUrl(),
         ];
+
+        $response = new ResponseModel('success', 'All divisions data', DivisionResource::collection($divisionsData), $pagination);
 
         return response()->json($response, 200);
     }
