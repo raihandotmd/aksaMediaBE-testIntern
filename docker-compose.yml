@@ -1,0 +1,24 @@
+services:
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'admintest'
+      MYSQL_PASSWORD: 'admintest'
+      MYSQL_ROOT_PASSWORD: 'admintest'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+volumes:
+  my-db:
