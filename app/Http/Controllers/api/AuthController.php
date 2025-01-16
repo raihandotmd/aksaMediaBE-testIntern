@@ -45,4 +45,23 @@ class AuthController extends BaseController
 
         return $this->sendResponse($resModel, 200);
     }
+
+    /**
+     * Function for admin logout
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        if ($user && $user->currentAccessToken()) {
+            $user->currentAccessToken()->delete();
+            $resModel = new ResponseModel('success', 'You have been logged out!', null);
+            return response()->json($resModel, 200);
+        }
+
+        $resModel = new ResponseModel('error', 'No active session found!', null);
+        return response()->json($resModel, 400);
+    }
 }
