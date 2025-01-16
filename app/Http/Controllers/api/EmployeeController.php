@@ -13,6 +13,7 @@ class EmployeeController extends BaseController
 {
     /**
      * get all employees data, with pagination and can be filtered by name or division_id
+     * @param Request $request
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
@@ -58,6 +59,7 @@ class EmployeeController extends BaseController
     /**
      * create a new employee data
      * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {
@@ -75,5 +77,36 @@ class EmployeeController extends BaseController
         $response = new ResponseModel('success', 'Employee data created');
 
         return response()->json($response, 201);
+    }
+
+    /** 
+     * update an employee data by id
+     * @param Request $request
+     * @param string $uuid (employee id)
+     * @return JsonResponse
+     */
+    public function update(Request $request, string $uuid): JsonResponse {
+        $employee = EmployeeModel::find($uuid);
+
+        if (!$employee) {
+            $response = new ResponseModel('error', 'Employee data not found', null);
+            return response()->json($response, 404);
+        }
+
+        $request->validate([
+            'image' => 'required|string',
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'division_id' => 'required|exists:divisions,id|string',
+            'position' => 'required|string',
+        ]);
+
+
+
+        $employee->update($request->only(['image', 'name', 'phone', 'division_id', 'position']));
+
+        $response = new ResponseModel('success', 'Employee data updated');
+
+        return response()->json($response, 200);
     }
 }
