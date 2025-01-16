@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // seed db with admin account
-        DB::table('users')->insert([
+        User::create([
             'name' => 'Budi Setiawan',
             'username' => 'admin',
             'phone' => '08123456789',
