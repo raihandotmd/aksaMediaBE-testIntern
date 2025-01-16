@@ -54,4 +54,26 @@ class EmployeeController extends BaseController
 
         return response()->json($response, 200);
     }
+
+    /**
+     * create a new employee data
+     * @param Request $request
+     */
+    public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'image' => 'required|string',
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'division_id' => 'required|exists:divisions,id|string',
+            'position' => 'required|string',
+        ]);
+        
+        // stricting request to only needed data
+        $employee = EmployeeModel::create($request->only(['image', 'name', 'phone', 'division_id', 'position']));
+
+        $response = new ResponseModel('success', 'Employee data created');
+
+        return response()->json($response, 201);
+    }
 }
