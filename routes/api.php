@@ -4,6 +4,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\DivisionController;
 use App\Http\Controllers\api\EmployeeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\SqlTestController;
 
 
 Route::post('login', [AuthController::class, 'login']);
@@ -19,3 +20,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('employees/{uuid}', [EmployeeController::class, 'update']);
     Route::delete('employees/{uuid}', [EmployeeController::class, 'destroy']);
 });
+
+
+// SQL Test
+Route::get('nilaiRT', [SqlTestController::class, 'calculateNilaiRT']);
+Route::get('nilaiST', [SqlTestController::class, 'calculateNilaiST']);
