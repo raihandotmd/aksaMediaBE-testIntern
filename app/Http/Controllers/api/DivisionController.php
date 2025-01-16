@@ -8,7 +8,7 @@ use App\Models\DivisionModel;
 use App\Models\ResponseModel;
 use Illuminate\Http\Request;
 
-class DivisionModelController extends BaseController
+class DivisionController extends BaseController
 {
     /**
      * get all divisions data, with pagination and can be filtered by name
