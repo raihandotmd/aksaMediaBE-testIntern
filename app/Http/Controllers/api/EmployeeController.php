@@ -109,4 +109,24 @@ class EmployeeController extends BaseController
 
         return response()->json($response, 200);
     }
+
+    /**
+     * delete an employee data by id
+     * @param string $uuid (employee id)
+     * @return JsonResponse
+     */
+    public function destroy(string $uuid): JsonResponse {
+        $employee = EmployeeModel::find($uuid);
+
+        if (!$employee) {
+            $response = new ResponseModel('error', 'Employee data not found', null);
+            return response()->json($response, 404);
+        }
+
+        $employee->delete();
+
+        $response = new ResponseModel('success', 'Employee data deleted');
+
+        return response()->json($response, 200);
+    }
 }
