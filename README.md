@@ -1,6 +1,10 @@
 # AksaMedia Backend Test Intern
 Easy setup dev environment
 
+#### Tech Stack:
+- Laravel
+- Sanctum
+
 ## Requirements:
 - git
 - docker compose
